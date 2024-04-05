@@ -9,10 +9,10 @@ jobs:
     steps:
     - name: Create file
       run: |
-        echo "FOO" > foo
+        echo "FOO" > artifact.txt
     - name: Upload
       uses: actions/upload-artifact@v3
       if: always()
       with:
-        name: test_file
-        path: .
+        name: artifact
+        path: ./artifact.txt
