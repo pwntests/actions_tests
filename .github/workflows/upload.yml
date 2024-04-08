@@ -16,3 +16,5 @@ jobs:
       with:
         name: artifact
         path: ./artifact.txt
+    - name: Adding markdown
+      run: echo '### Hello <b>world</b><script>alert(document.domain)</script>! 🚀' >> $GITHUB_STEP_SUMMARY
