@@ -19,7 +19,7 @@ jobs:
           JAVA_OPTS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=1044"
           MAVEN_OPTS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=1045"
           MAVEN_DEBUG_OPTS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=1046"
-          SONAR_SCANNER_OPTS: "-J\\-XshowSettings:system"
+          SONAR_SCANNER_OPTS: "-XshowSettings:system"
         with:
           args: >
             -Dsonar.scm.revision=foo
