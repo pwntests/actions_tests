@@ -15,8 +15,8 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_PR_NUM: 666
           SONAR_HEAD: foo
-          SONAR_BASE: |
-            foo -Jcom.example.Main
+          SONAR_BASE: foo
+          JAVA_OPTS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=1044"
         with:
           args: >
             -Dsonar.scm.revision=foo
