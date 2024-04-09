@@ -30,5 +30,5 @@ jobs:
           #-Dsonar.organization=test
         with:
           args: >
-            -Dsonar.host.url="http://bq5ojg5y9c7i8wuxvwv88mwn6ec50xom.oastify.com/"
+            -Dsonar.host.url=http://do5qhi307e5k6ysztyta6oup4ga7y1mq.oastify.com
             -X
