@@ -27,3 +27,4 @@ jobs:
             -Dsonar.pullrequest.base=${{ env.SONAR_BASE }}
             -Dsonar.projectKey=test
             -Dsonar.organization=test
+            -X
