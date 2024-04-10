@@ -14,15 +14,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Echo trigger
-        env:
-          payload: |
-            
-            EOF
-            whoami
-            cat << EOF
-            EOF
         run: |
           cat << EOF
-          ${{ toJSON(env) }}
+          ${{ toJSON(github.event) }}
           EOF
 
