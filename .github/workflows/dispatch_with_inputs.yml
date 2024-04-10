@@ -14,6 +14,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Echo trigger
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           cat << EOF
           ${{ toJSON(github.event) }}
