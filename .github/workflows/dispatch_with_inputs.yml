@@ -21,3 +21,4 @@ jobs:
           cat > payload.json << 'EOF'
           ${{ toJson(github.event) }}
           EOF
+          cat payload.json
