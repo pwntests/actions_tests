@@ -18,14 +18,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          cat << EOF
-          ${{ toJSON(github.event) }}
-          EOF
-          echo "-------"
           cat > payload.json << 'EOF'
-          ${{ toJson(github.event) }}
-          EOF
-          echo "-------"
-          cat <<-"EOF" > event.json
           ${{ toJson(github.event) }}
           EOF
