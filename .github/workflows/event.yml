@@ -1,59 +1,43 @@
-name: GitHub Event Processor
+name: Check pull requests
 
 on:
-  issues:
-    types: [edited, labeled, opened, reopened, unlabeled]
-  # issue_comment is used for both issues and pull_requests
-  # github.event.issue.pull_request will be non-null on pull request comments
-  issue_comment:
-    types: [created]
-  # synchronize is the pull_request_target event when changes are pushed
-  # pull request merged is the closed event with github.event.pull_request.merged = true
-  pull_request_target:
-    types: [closed, labeled, opened, reopened, review_requested, synchronize, unlabeled]
+  push:
+    branches-ignore: # Run the checks on all branches but the protected ones
+      - master
+      - release/*
 
-# This removes all unnecessary permissions, the ones needed will be set below.
-# https://docs.github.com/en/actions/security-guides/automatic-token-authentication#permissions-for-the-github_token
-permissions: {}
+  pull_request_target:
+    branches:
+      - master
+      - release/*
+    types:
+      - opened
+      - edited
+      - reopened
+      - ready_for_review
 
 jobs:
-  event-handler-with-azure:
-    permissions:
-      issues: write
-      pull-requests: write
-      id-token: write
-      contents: read
-    name: Handle ${{ github.event_name }} ${{ github.event.action }} event with azure login
+  check-conventional-commits:
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'issues' && github.event.action == 'opened' }}
-    steps:
-      - name: Process Action Event
-        run: |
-          cat > payload.json << 'EOF'
-          ${{ toJson(github.event) }}
-          EOF
-          echo ${{ github.event_name }} 
-          cat payload.json
-        shell: bash
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          LABEL_SERVICE_API_KEY: ${{ env.LABEL_SERVICE_API_KEY }}
 
-  event-handler:
-    permissions:
-      issues: write
-      pull-requests: write
-    name: Handle ${{ github.event_name }} ${{ github.event.action }} event
-    runs-on: ubuntu-latest
-    if: ${{ github.event_name != 'issues' || github.event.action != 'opened' }}
     steps:
-      - name: Process Action Event
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            .github
+
+      - if: ${{ github.event_name == 'pull_request_target' }}
         run: |
-          cat > payload.json << 'EOF'
-          ${{ toJson(github.event) }}
+          set -ex
+
+          wc -l <<EOF
+          ${{ toJSON(github.event) }}
           EOF
-          echo ${{ github.event_name }}
-          cat payload.json
-        shell: bash
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - if: ${{ github.event_name == 'push' }}
+        run: |
+          set -ex
+
+          wc -l  <<EOF
+          ${{ toJSON(github.event) }}
+          EOF
