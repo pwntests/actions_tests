@@ -59,6 +59,18 @@ jobs:
           ${{ 
               github.actor == 'torvalds' || 
               github.actor == 'dependabot[bot]' }}
+      - name: Test 9 
+        if:   '${{ github.actor == "torvalds" || github.actor == "dependabot[bot]" }}'
+        run: echo "Test 9 should not be printed"
+      - name: Test 10
+        if:   "${{ github.actor == 'torvalds' || github.actor == 'dependabot[bot]' }}"
+        run: echo "Test 10 should not be printed"
+      - name: Test 11
+        if:   " ${{ github.actor == 'torvalds' || github.actor == 'dependabot[bot]' }}"
+        run: echo "Test 11 should not be printed"
+      - name: Test 12
+        if:   " ${{ github.actor == 'torvalds' || github.actor == 'dependabot[bot]' }}"
+        run: echo "Test 12 should not be printed"
       - uses: actions/checkout@v4
         with:
           sparse-checkout: |
