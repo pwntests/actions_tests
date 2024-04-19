@@ -35,7 +35,7 @@ jobs:
         if: ${{ github.actor == 'torvalds' || github.actor == 'dependabot[bot]' }}
         run: echo "Test 3 should not be printed"
       - name: Test 4 
-        if:    ${{ github.actor == 'torvalds' || github.actor == 'dependabot[bot]' }}
+        if:   ${{ github.actor == 'torvalds' || github.actor == 'dependabot[bot]' }}
         run: echo "Test 4 should not be printed"
       - name: Test 5 
         if: ${{ 
@@ -44,8 +44,19 @@ jobs:
           }}
         run: echo "Test 5 should not be printed"
       - name: Test 6
-        if: ${{ github.actor == 'torvalds' || github.actor == 'dependabot[bot]' }} ${{ never() }}
+        if: ${{ github.actor == 'torvalds' || github.actor == 'dependabot[bot]' }} ${{ 1 == 2 }}
         run: echo "Test 6 should not be printed"
+      - name: Test 7
+        if: ${{ 
+              github.actor == 'torvalds' || 
+              github.actor == 'dependabot[bot]'
+          }}
+
+      - name: Test 8
+        if: > 
+          ${{ 
+              github.actor == 'torvalds' || 
+              github.actor == 'dependabot[bot]' }}
       - uses: actions/checkout@v4
         with:
           sparse-checkout: |
