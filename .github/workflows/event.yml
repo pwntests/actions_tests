@@ -27,24 +27,24 @@ jobs:
       - name: Test 2 
         if: |
           ${{ 
-              github.actor == 'torvalds' || 
-              github.actor == 'dependabot[bot]'
+              1 == 2 ||
+              3 == 4
           }}
         run: echo "Test 2 should not be printed"
       - name: Test 3 
-        if: ${{ github.actor == 'torvalds' || github.actor == 'dependabot[bot]' }}
+        if: ${{ 1 == 2 }}
         run: echo "Test 3 should not be printed"
       - name: Test 4 
-        if:   ${{ github.actor == 'torvalds' || github.actor == 'dependabot[bot]' }}
+        if:   ${{ 1 == 2 }}
         run: echo "Test 4 should not be printed"
       - name: Test 5 
         if: ${{ 
-              github.actor == 'torvalds' || 
-              github.actor == 'dependabot[bot]'
+              1 == 2 ||
+              3 == 4
           }}
         run: echo "Test 5 should not be printed"
       - name: Test 6
-        if: ${{ github.actor == 'torvalds' || github.actor == 'dependabot[bot]' }} ${{ 1 == 2 }}
+        if: ${{ 1 == 1 }} ${{ 1 == 2 }}
         run: echo "Test 6 should not be printed"
       - name: Test 7
         run: echo "Test 7 should not be printed"
@@ -57,19 +57,19 @@ jobs:
         run: echo "Test 8 should not be printed"
         if: > 
           ${{ 
-              github.actor == 'torvalds' || 
-              github.actor == 'dependabot[bot]' }}
+              1 == 2 ||
+              3 == 4 }}
       - name: Test 9 
-        if:   '${{ github.actor == "torvalds" || github.actor == "dependabot[bot]" }}'
+        if:   '${{ 1 == 2  }}'
         run: echo "Test 9 should not be printed"
       - name: Test 10
-        if:   "${{ github.actor == 'torvalds' || github.actor == 'dependabot[bot]' }}"
+        if:   "${{1 == 2  }}"
         run: echo "Test 10 should not be printed"
       - name: Test 11
-        if:   " ${{ github.actor == 'torvalds' || github.actor == 'dependabot[bot]' }}"
+        if:   " ${{ 1 == 2  }}"
         run: echo "Test 11 should not be printed"
       - name: Test 12
-        if:   " ${{ github.actor == 'torvalds' || github.actor == 'dependabot[bot]' }}"
+        if:   " ${{ 1 == 2  }}"
         run: echo "Test 12 should not be printed"
       - uses: actions/checkout@v4
         with:
