@@ -21,6 +21,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - run: echo "This should not be printed"
+        if: |
+          ${{ 
+              github.actor == 'torvalds' || 
+              github.actor == 'dependabot[bot]'
+          }}
       - uses: actions/checkout@v4
         with:
           sparse-checkout: |
