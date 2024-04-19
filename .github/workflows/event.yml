@@ -22,7 +22,7 @@ jobs:
 
     steps:
       - name: Test 1 
-        if: github.actor == 'torvalds' || github.actor == 'dependabot[bot]'
+        if: 1 == 2
         run: echo "Test 1 should not be printed"
       - name: Test 2 
         if: |
