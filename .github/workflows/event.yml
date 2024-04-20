@@ -82,7 +82,24 @@ jobs:
             false || 1 == 2
           )}}
         run: echo "Test 14 should not be printed"
-
+      - name: Test 15
+        if: |-
+          ${{(
+            false || 1 == 2
+          )}}
+        run: echo "Test 15 should not be printed"
+      - name: Test 16
+        if: |+
+          ${{(
+            false || 1 == 2
+          )}}
+        run: echo "Test 16 should not be printed"
+      - name: Test 17
+        if: >+
+          ${{(
+            false || 1 == 2
+          )}}
+        run: echo "Test 17 should not be printed"
       - uses: actions/checkout@v4
         with:
           sparse-checkout: |
