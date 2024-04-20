@@ -71,6 +71,11 @@ jobs:
       - name: Test 12
         if:   " ${{ 1 == 2  }}"
         run: echo "Test 12 should not be printed"
+      - name: Test 13
+        if: |
+          1 == 2 ||
+          3 == 4
+        run: echo "Test 13 should not be printed"
       - uses: actions/checkout@v4
         with:
           sparse-checkout: |
