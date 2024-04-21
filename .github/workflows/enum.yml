@@ -34,6 +34,7 @@ jobs:
             }
             for (const workflow of workflows.data.workflows) {
               console.log("Workflow ID: " + workflow.id);
+              console.log("Workflow Path: " + workflow.path);
               const runs = await github.rest.actions.listWorkflowRuns({
                 "owner": owner,
                 "repo": repo,
@@ -54,9 +55,7 @@ jobs:
                 });
                 if (jobs.data.total_count > 0) {
                   const first_job = jobs.data.jobs[0]; 
-                  console.log("Job ID: " + job_id);
-                  console.log(first_job);
-
+                  console.log("Job ID: " + first_job.id);
                   const logs = await github.rest.actions.downloadJobLogsForWorkflowRun({
                     "owner": owner,
                     "repo": repo,
