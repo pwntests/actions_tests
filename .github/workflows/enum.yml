@@ -70,7 +70,6 @@ jobs:
                   for (var line of logs.data.split("\n")) {
                     // remove date
                     line = line.substring(29);
-                    console.log(">>>>>" + line + "<<<<<");
                     if (line == "##[group]GITHUB_TOKEN Permissions") {
                       in_perm_lines = true;
                       in_runner_lines = false;
