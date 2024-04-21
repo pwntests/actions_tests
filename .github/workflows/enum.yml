@@ -104,4 +104,4 @@ jobs:
 
             return results;
       - name: Get result
-        run: echo "${{ fromJSON(steps.set-result.outputs.result) }}"
+        run: echo "${{ steps.set-result.outputs.result }}"
