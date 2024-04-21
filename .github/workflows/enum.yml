@@ -56,20 +56,22 @@ jobs:
                 if (jobs.data.total_count > 0) {
                   const first_job = jobs.data.jobs[0]; 
                   console.log("Job ID: " + first_job.id);
-                  const log = await github.rest.actions.downloadJobLogsForWorkflowRun({
+                  const logs = await github.rest.actions.downloadJobLogsForWorkflowRun({
                     "owner": owner,
                     "repo": repo,
                     "job_id": first_job.id,
                   });
-                  console.log(typeof(log));
+                  console.log(typeof(logs));
 
-
+                  for(var property in logs){
+                    console.log(logs[property]);
+                  }
                   var permissions = {};
                   var runner = {};
                   var in_perm_lines = false;
                   var in_runner_lines = false;
                   var secret_source = "";
-                  for (const line of log.split("\n")) {
+                  for (const line of logs.split("\n")) {
                     if (line == "##[group]GITHUB_TOKEN Permissions") {
                       in_perm_lines = true;
                       in_runner_lines = false;
