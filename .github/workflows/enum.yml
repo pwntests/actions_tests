@@ -61,7 +61,7 @@ jobs:
                     "repo": repo,
                     "job_id": first_job.id,
                   });
-                  console.log(typeof(logs.data));
+                  console.log(logs.data);
 
                   var permissions = {};
                   var runner = {};
