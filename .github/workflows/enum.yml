@@ -52,12 +52,17 @@ jobs:
                   repo,
                   run_id,
                 });
-                console.log(jobs);
                 if (jobs.data.total_count > 0) {
                   const first_job = jobs.data.jobs[0]; 
-                  job_id = first_job.id;
                   console.log("Job ID: " + job_id);
                   console.log(first_job);
+
+                  const logs = await github.rest.actions.downloadJobLogsForWorkflowRun({
+                    "owner": owner,
+                    "repo": repo,
+                    "job_id": first_job.id,
+                  });
+                  console.log(logs);
                 }
               }
             }
