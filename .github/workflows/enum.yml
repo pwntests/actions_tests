@@ -22,7 +22,7 @@ jobs:
             //});
             //console.log(permissions);
 
-            const workflows = github.rest.actions.listRepoWorkflows({
+            const workflows = await github.rest.actions.listRepoWorkflows({
               owner,
               repo,
             });
