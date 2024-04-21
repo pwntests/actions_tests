@@ -46,13 +46,16 @@ jobs:
                 //console.log(last_run);
 
                 const run_id = last_run.id;
-                const jobs = github.rest.actions.listJobsForWorkflowRun({
+                console.log("Last Run ID: " + run_id);
+                const jobs = await github.rest.actions.listJobsForWorkflowRun({
                   owner,
                   repo,
                   run_id,
                 });
                 if (jobs.data.total_count > 0) {
                   const first_job = jobs.data.jobs[0]; 
+                  job_id = first_job.id;
+                  console.log("Job ID: " + job_id);
                   console.log(first_job);
                 }
               }
