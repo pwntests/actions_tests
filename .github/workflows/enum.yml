@@ -15,11 +15,18 @@ jobs:
             const owner = "hashicorp";
             const repo = "terraform-provider-azurerm";
 
-            const permissions = github.rest.actions.getGithubActionsDefaultWorkflowPermissionsRepository({
+            // Requires admin perms
+            //const permissions = github.rest.actions.getGithubActionsDefaultWorkflowPermissionsRepository({
+            //  owner,
+            //  repo,
+            //});
+            //console.log(permissions);
+
+            const workflows = github.actions.listRepoWorkflows({
               owner,
               repo,
             });
-            console.log(permissions);
+            console.log(workflows);
 
             return "Hello!"
           result-encoding: string
