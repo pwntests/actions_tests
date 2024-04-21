@@ -33,10 +33,11 @@ jobs:
               return;
             }
             for (const workflow of workflows.data.workflows) {
+              const workflow_id = workflow.id;
               const runs = await github.rest.actions.listWorkflowRuns({
                 owner,
                 repo,
-                workflow.id,
+                workflow_id,
               });   
               if (runs.data.workflow_runs.total_count > 0) {
                 const last_run = runs.data.workflow_runs[0];
