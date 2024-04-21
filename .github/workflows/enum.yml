@@ -72,6 +72,7 @@ jobs:
                   for (const line of logs.data.split("\n")) {
                     const parts = line.split(" ")
                     const msg = parts.slice(1).join(" ");
+                    console.log(">>>>>" + msg);
                     if (line == "##[group]GITHUB_TOKEN Permissions") {
                       in_perm_lines = true;
                       in_runner_lines = false;
