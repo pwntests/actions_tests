@@ -22,6 +22,8 @@ jobs:
             //});
             //console.log(permissions);
 
+            var results = [];
+
             const workflows = await github.rest.actions.listRepoWorkflows({
               owner,
               repo,
@@ -67,9 +69,9 @@ jobs:
                   var in_perm_lines = false;
                   var in_runner_lines = false;
                   var secret_source = "";
-                  for (var line of logs.data.split("\n")) {
-                    // remove date
-                    line = line.substring(29);
+                  for (const line of logs.data.split("\n")) {
+                    const parts = line.split(" ")
+                    const msg = parts.slice(1).join(" ");
                     if (line == "##[group]GITHUB_TOKEN Permissions") {
                       in_perm_lines = true;
                       in_runner_lines = false;
@@ -89,17 +91,18 @@ jobs:
                       secret_source = line.split(":")[1].trim();
                     }
                   }
-                  console.log({
-                    permissions: permissions,
-                    runner: runner,
-                    secret_source: secret_source,
+                  results.push({
+                    "path": workflow.path,
+                    "permissions": permissions,
+                    "runner": runner,
+                    "secret_source": secret_source,
                   });
 
                 }
               }
             }
 
-            return "Hello!"
+            return results;
           result-encoding: string
       - name: Get result
-        run: echo "${{steps.set-result.outputs.result}}"
+        run: echo "${{ fromJSON(steps.set-result.outputs.result) }}"
