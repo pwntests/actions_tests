@@ -56,12 +56,45 @@ jobs:
                 if (jobs.data.total_count > 0) {
                   const first_job = jobs.data.jobs[0]; 
                   console.log("Job ID: " + first_job.id);
-                  const logs = await github.rest.actions.downloadJobLogsForWorkflowRun({
+                  const log = await github.rest.actions.downloadJobLogsForWorkflowRun({
                     "owner": owner,
                     "repo": repo,
                     "job_id": first_job.id,
                   });
-                  console.log(logs);
+                  //console.log(log);
+
+
+                  var permissions = {};
+                  var runner = {};
+                  var in_perm_lines = false;
+                  var in_runner_lines = false;
+                  var secret_source = "";
+                  for (const line of log.split("\n")) {
+                    if (line == "##[group]GITHUB_TOKEN Permissions") {
+                      in_perm_lines = true;
+                      in_runner_lines = false;
+                    } else if (line == "##[group]Runner Image") {
+                      in_perm_lines = false;
+                      in_runner_lines = true;
+                    } else if (line == "##[endgroup]") {
+                      in_perm_lines = false;
+                      in_runner_lines = false;
+                    } else if (in_perm_lines) {
+                      const [key, value] = line.split(":");
+                      permissions[key.trim()] = value.trim();
+                    } else if (in_runner_lines) {
+                      const [key, value] = line.split(":");
+                      runner[key.trim()] = value.trim();
+                    } else if (line.startsWith("Secret source:")) {
+                      secret_source = line.split(":")[1].trim();
+                    }
+                  }
+                  console.log({
+                    permissions: permissions,
+                    runner: runner,
+                    secret_source: secret_source,
+                  });
+
                 }
               }
             }
