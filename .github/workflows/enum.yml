@@ -67,7 +67,7 @@ jobs:
                   var in_perm_lines = false;
                   var in_runner_lines = false;
                   var secret_source = "";
-                  for (const line of logs.data.split("\n")) {
+                  for (var line of logs.data.split("\n")) {
                     // remove date
                     line = line.substring(29);
                     console.log(">>>>>" + line + "<<<<<");
