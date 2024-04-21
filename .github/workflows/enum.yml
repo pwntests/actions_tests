@@ -1,6 +1,7 @@
-name: upload
+name: Enum
 
 on:
+  push:
   workflow_dispatch:
 
 jobs:
