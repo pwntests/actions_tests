@@ -52,6 +52,7 @@ jobs:
                   repo,
                   run_id,
                 });
+                console.log(jobs);
                 if (jobs.data.total_count > 0) {
                   const first_job = jobs.data.jobs[0]; 
                   job_id = first_job.id;
