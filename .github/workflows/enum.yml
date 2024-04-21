@@ -91,7 +91,7 @@ jobs:
                       secret_source = line.split(":")[1].trim();
                     }
                   }
-                  console.log(">>>>>" + permissions);
+                  console.log(">>>>>" + JSON.stringify(permissions));
                   results.push({
                     "path": workflow.path,
                     "permissions": permissions,
