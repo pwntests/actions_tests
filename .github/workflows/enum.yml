@@ -72,26 +72,25 @@ jobs:
                   for (const line of logs.data.split("\n")) {
                     const parts = line.split(" ")
                     const msg = parts.slice(1).join(" ");
-                    if (line == "##[group]GITHUB_TOKEN Permissions") {
+                    if (msg == "##[group]GITHUB_TOKEN Permissions") {
                       in_perm_lines = true;
                       in_runner_lines = false;
-                    } else if (line == "##[group]Runner Image") {
+                    } else if (msg == "##[group]Runner Image") {
                       in_perm_lines = false;
                       in_runner_lines = true;
-                    } else if (line == "##[endgroup]") {
+                    } else if (msg == "##[endgroup]") {
                       in_perm_lines = false;
                       in_runner_lines = false;
                     } else if (in_perm_lines) {
-                      const [key, value] = line.split(":");
+                      const [key, value] = msg.split(":");
                       permissions[key.trim()] = value.trim();
                     } else if (in_runner_lines) {
-                      const [key, value] = line.split(":");
+                      const [key, value] = msg.split(":");
                       runner[key.trim()] = value.trim();
-                    } else if (line.startsWith("Secret source:")) {
-                      secret_source = line.split(":")[1].trim();
+                    } else if (msg.startsWith("Secret source:")) {
+                      secret_source = msg.split(":")[1].trim();
                     }
                   }
-                  console.log(">>>>>" + JSON.stringify(permissions));
                   results.push({
                     "path": workflow.path,
                     "permissions": permissions,
@@ -102,7 +101,6 @@ jobs:
                 }
               }
             }
-            console.log(results);
             return results;
       - name: Get result
         run: echo "${{ steps.set-result.outputs.result }}"
