@@ -61,7 +61,7 @@ jobs:
                     "repo": repo,
                     "job_id": first_job.id,
                   });
-                  //console.log(log);
+                  console.log(typeof(log));
 
 
                   var permissions = {};
