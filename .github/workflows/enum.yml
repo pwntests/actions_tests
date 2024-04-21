@@ -40,8 +40,9 @@ jobs:
                 repo,
                 workflow_id,
               });   
-              console.log(runs);
+              //console.log(runs);
               if (runs.data.workflow_runs.total_count > 0) {
+                console.log("IN");
                 const last_run = runs.data.workflow_runs[0];
                 console.log(last_run);
               }
