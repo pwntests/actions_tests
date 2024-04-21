@@ -12,8 +12,8 @@ jobs:
         id: set-result
         with:
           script: |
-            const owner = "hashicorp";
-            const repo = "terraform-provider-azurerm";
+            const owner = "pwntester";
+            const repo = "octo.nvim";
 
             // Requires admin perms
             //const permissions = github.rest.actions.getGithubActionsDefaultWorkflowPermissionsRepository({
@@ -26,7 +26,23 @@ jobs:
               owner,
               repo,
             });
-            console.log(workflows);
+            //console.log(workflows);
+
+            if (workflows.data.workflows.total_count == 0) {
+              console.log("No workflows found");
+              return;
+            }
+            for (const workflow of workflows.data.workflows) {
+              const runs = await github.rest.actions.listWorkflowRuns({
+                owner,
+                repo,
+                workflow.id,
+              });   
+              if (runs.data.workflow_runs.total_count > 0) {
+                const last_run = runs.data.workflow_runs[0];
+                console.log(last_run);
+              }
+            }
 
             return "Hello!"
           result-encoding: string
