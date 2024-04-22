@@ -117,7 +117,7 @@ jobs:
           ACTIONS_ALLOW_UNSECURE_COMMANDS: true
           PAYLOAD: |
             foo
-            BAR=BAR
+            PATH=PWNED:/bin:/usr/local/bin
           PAYLOAD2: |
             /bin/foo:/bin/bar
           PAYLOAD3: |
@@ -127,6 +127,7 @@ jobs:
           echo "FOO2=$(echo $PAYLOAD)" >> $GITHUB_ENV
           echo $PAYLOAD2 >> $GITHUB_PATH
           echo "::add-path::$PAYLOAD3"
+          echo "${{ env.PAYLOAD }" > $GITHUB_ENV
       - run: |
           echo FOO: $FOO
           echo FOO2: $FOO2
