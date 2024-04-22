@@ -110,11 +110,11 @@ jobs:
       - name: test
         env: 
           PAYLOAD: "foo\nBAR=BAR"
-          PAYLOAD2: "/bin/foo\n/bin/bar"
+          PAYLOAD2: "/bin/foo:/bin/bar"
         run: |
-          echo FOO=$(PAYLOAD) >> $GITHUB_ENV
+          echo FOO=$PAYLOAD >> $GITHUB_ENV
           echo $PAYLOAD2 >> $GITHUB_PATH
       - run: |
-          echo $FOO
-          echo $BAR
-          echo $PATH
+          echo FOO: $FOO
+          echo BAR: $BAR
+          echo PATH: $PATH
