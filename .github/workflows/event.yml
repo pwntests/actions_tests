@@ -127,7 +127,7 @@ jobs:
           echo "FOO2=$(echo $PAYLOAD)" >> $GITHUB_ENV
           echo $PAYLOAD2 >> $GITHUB_PATH
           echo "::add-path::$PAYLOAD3"
-          echo "${{ env.PAYLOAD }" > $GITHUB_ENV
+          echo "${{ env.PAYLOAD }}" > $GITHUB_ENV
       - run: |
           echo FOO: $FOO
           echo FOO2: $FOO2
