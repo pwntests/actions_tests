@@ -103,4 +103,4 @@ jobs:
             }
             return results;
       - name: Get result
-        run: echo "${{ steps.set-result.outputs.result }}"
+        run: echo "${{ toJSON(steps.set-result.outputs.result) }}"
