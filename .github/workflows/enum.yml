@@ -54,6 +54,8 @@ jobs:
               });   
 
               if (runs.data.total_count > 0) {
+                // TODO: For multi-trigger workflows, a single run does not represent all the possible 
+                //       permissions, runners, etc.
                 const last_run = runs.data.workflow_runs[0];
                 const jobs = await github.rest.actions.listJobsForWorkflowRun({
                   "owner": owner,
@@ -62,45 +64,54 @@ jobs:
                 });
 
                 if (jobs.data.total_count > 0) {
-                  const first_job = jobs.data.jobs[0]; 
-                  const logs = await github.rest.actions.downloadJobLogsForWorkflowRun({
-                    "owner": owner,
-                    "repo": repo,
-                    "job_id": first_job.id,
-                  });
 
-                  var permissions = {};
-                  var runner = {};
-                  var in_perm_lines = false;
-                  var in_runner_lines = false;
-                  var secret_source = "";
-                  for (const line of logs.data.split("\n")) {
-                    const parts = line.split(" ")
-                    const msg = parts.slice(1).join(" ");
-                    if (msg == "##[group]GITHUB_TOKEN Permissions") {
-                      in_perm_lines = true;
-                      in_runner_lines = false;
-                    } else if (msg == "##[group]Runner Image") {
-                      in_perm_lines = false;
-                      in_runner_lines = true;
-                    } else if (msg == "##[endgroup]") {
-                      in_perm_lines = false;
-                      in_runner_lines = false;
-                    } else if (in_perm_lines) {
-                      const [key, value] = msg.split(":");
-                      permissions[key.trim()] = value.trim();
-                    } else if (in_runner_lines) {
-                      const [key, value] = msg.split(":");
-                      runner[key.trim()] = value.trim();
-                    } else if (msg.startsWith("Secret source:")) {
-                      secret_source = msg.split(":")[1].trim();
+                  var job_details = {}
+                  for (const job of jobs.data.jobs) {
+                    const logs = await github.rest.actions.downloadJobLogsForWorkflowRun({
+                      "owner": owner,
+                      "repo": repo,
+                      "job_id": job.id,
+                    });
+
+                    var permissions = {};
+                    var runner = {};
+                    var in_perm_lines = false;
+                    var in_runner_lines = false;
+                    var secret_source = "";
+                    for (const line of logs.data.split("\n")) {
+                      const parts = line.split(" ")
+                      const msg = parts.slice(1).join(" ");
+                      if (msg == "##[group]GITHUB_TOKEN Permissions") {
+                        in_perm_lines = true;
+                        in_runner_lines = false;
+                      } else if (msg == "##[group]Runner Image") {
+                        in_perm_lines = false;
+                        in_runner_lines = true;
+                      } else if (msg == "##[endgroup]") {
+                        in_perm_lines = false;
+                        in_runner_lines = false;
+                      } else if (in_perm_lines) {
+                        const [key, value] = msg.split(":");
+                        permissions[key.trim()] = value.trim();
+                      } else if (in_runner_lines) {
+                        const [key, value] = msg.split(":");
+                        runner[key.trim()] = value.trim();
+                      } else if (msg.startsWith("Secret source:")) {
+                        secret_source = msg.split(":")[1].trim();
+                      }
+                    }
+
+                    job_details[job.name] = {
+                      "name": job.name,
+                      "id": job.id,
+                      "permissions": permissions,
+                      "runners": runner,
+                      "secret_source": secret_source,
                     }
                   }
                   result["workflows"].push({
                     "path": workflow.path,
-                    "permissions": permissions,
-                    "runner": runner,
-                    "secret_source": secret_source,
+                    "jobs": job_details
                   });
 
                 }
