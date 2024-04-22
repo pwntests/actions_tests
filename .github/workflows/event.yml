@@ -115,8 +115,10 @@ jobs:
             /bin/foo:/bin/bar
         run: |
           echo FOO=$PAYLOAD >> $GITHUB_ENV
+          echo "FOO2=$(echo $PAYLOAD)" >> $GITHUB_ENV
           echo $PAYLOAD2 >> $GITHUB_PATH
       - run: |
           echo FOO: $FOO
+          echo FOO2: $FOO2
           echo BAR: $BAR
           echo PATH: $PATH
