@@ -12,8 +12,11 @@ jobs:
         id: set-result
         with:
           script: |
-            const owner = "pwntester";
-            const repo = "octo.nvim";
+            //const owner = "pwntests";
+            //const repo = "action_tests";
+
+            const owner = context.github.repository.split("/")[0];
+            const repo = context.github.repository.split("/")[1];
 
             var result = {
               "visibility": "private",
