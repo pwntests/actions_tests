@@ -4,9 +4,9 @@ on:
   workflow_dispatch:
 
 jobs:
-  check-conventional-commits:
+  if-tests:
     runs-on: ubuntu-latest
-
+    permissions: {}
     steps:
       - name: Test 1 
         if: 1 == 2
@@ -87,17 +87,34 @@ jobs:
             false || 1 == 2
           )}}
         run: echo "Test 17 should not be printed"
-
+  tojson-tests:
+    runs-on: ubuntu-latest
+    permissions: {}
+    steps:
       - run: |
           set -ex
-
           wc -l <<EOF
           ${{ toJSON(github.event) }}
           EOF
 
       - run: |
           set -ex
-
           wc -l  <<EOF
           ${{ toJSON(github.event) }}
           EOF
+  injection-tests:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: test
+        env: 
+          PAYLOAD: "foo\nBAR=BAR"
+          PAYLOAD2: "/bin/foo\n/bin/bar"
+        run: |
+          echo FOO=$(PAYLOAD) >> $GITHUB_ENV
+          echo $PAYLOAD2 >> $GITHUB_PATH
+      - run: |
+          echo $FOO
+          echo $BAR
+          echo $PATH
