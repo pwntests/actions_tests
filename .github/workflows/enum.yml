@@ -119,4 +119,4 @@ jobs:
             console.log(result);
             return result;
       - name: Get result
-        run: echo "${{ toJSON(steps.set-result.outputs.result) }} | jq '.'"
+        run: echo "${{ toJSON(steps.set-result.outputs.result) }}" | jq '.'
