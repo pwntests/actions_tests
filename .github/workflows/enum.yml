@@ -15,49 +15,54 @@ jobs:
             const owner = "pwntester";
             const repo = "octo.nvim";
 
-            // Requires admin perms
-            //const permissions = github.rest.actions.getGithubActionsDefaultWorkflowPermissionsRepository({
-            //  owner,
-            //  repo,
-            //});
-            //console.log(permissions);
+            var result = {
+              "visibility": "private",
+              "workflows": []
+            };
 
-            var results = [];
+            // Get repo visibility
+            const info = await github.rest.repos.get({
+              owner,
+              repo,
+            });
+            console.log(info.data)
+            result['visibility'] = "public";
+
+            // Requires admin perms
+            // const permissions = await github.rest.actions.getGithubActionsDefaultWorkflowPermissionsRepository({
+            //   owner,
+            //   repo,
+            // });
+
 
             const workflows = await github.rest.actions.listRepoWorkflows({
               owner,
               repo,
             });
-            //console.log(workflows);
 
             if (workflows.data.workflows.total_count == 0) {
               console.log("No workflows found");
-              return;
+              return result;
             }
+
             for (const workflow of workflows.data.workflows) {
-              console.log("Workflow ID: " + workflow.id);
-              console.log("Workflow Path: " + workflow.path);
               const runs = await github.rest.actions.listWorkflowRuns({
                 "owner": owner,
                 "repo": repo,
                 "workflow_id": workflow.id,
                 "status": "success"
               });   
-              //console.log(runs);
+
               if (runs.data.total_count > 0) {
                 const last_run = runs.data.workflow_runs[0];
-                //console.log(last_run);
-
-                const run_id = last_run.id;
-                console.log("Last Run ID: " + run_id);
                 const jobs = await github.rest.actions.listJobsForWorkflowRun({
-                  owner,
-                  repo,
-                  run_id,
+                  "owner": owner,
+                  "repo" : repo,
+                  "run_id": last_run.id,
                 });
+
                 if (jobs.data.total_count > 0) {
                   const first_job = jobs.data.jobs[0]; 
-                  console.log("Job ID: " + first_job.id);
                   const logs = await github.rest.actions.downloadJobLogsForWorkflowRun({
                     "owner": owner,
                     "repo": repo,
@@ -91,7 +96,7 @@ jobs:
                       secret_source = msg.split(":")[1].trim();
                     }
                   }
-                  results.push({
+                  result["workflows"].push({
                     "path": workflow.path,
                     "permissions": permissions,
                     "runner": runner,
@@ -101,6 +106,6 @@ jobs:
                 }
               }
             }
-            return results;
+            return result;
       - name: Get result
-        run: echo "${{ toJSON(steps.set-result.outputs.result) }}"
+        run: echo "${{ toJSON(steps.set-result.outputs.result) }} | jq '.'"
