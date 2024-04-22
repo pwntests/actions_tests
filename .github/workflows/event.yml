@@ -108,16 +108,19 @@ jobs:
     steps:
       - name: test
         env: 
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
           PAYLOAD: |
             foo
             BAR=BAR
           PAYLOAD2: |
             /bin/foo:/bin/bar
+          PAYLOAD3: |
+            /bin/baz
         run: |
           echo FOO=$PAYLOAD >> $GITHUB_ENV
           echo "FOO2=$(echo $PAYLOAD)" >> $GITHUB_ENV
           echo $PAYLOAD2 >> $GITHUB_PATH
-          echo "::add-path::/bin/baz"
+          echo "::add-path::$PAYLOAD3"
       - run: |
           echo FOO: $FOO
           echo FOO2: $FOO2
