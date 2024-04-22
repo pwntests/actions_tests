@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - id: enum
-        uses: GitHubSecurityLab/workflow-enum-action@master
+        uses: GitHubSecurityLab/workflow-enum-action@v1
         with:
           repo: "pwntester/octo.nvim"
           token: ${{ secrets.GITHUB_TOKEN }}
