@@ -11,6 +11,6 @@ jobs:
         uses: GitHubSecurityLab/workflow-enum-action@v1
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          # repo: "pwntester/octo.nvim"
+          repo: "GitHubSecurityLab/CodeQL-Community-Packs"
       - name: Get result
         run: echo ${{ toJSON(steps.enum.outputs.data) }} | jq '.'
