@@ -10,7 +10,7 @@ jobs:
       - id: enum
         uses: GitHubSecurityLab/workflow-enum-action@v1
         with:
-          repo: "pwntester/octo.nvim"
+          # repo: "pwntester/octo.nvim"
           token: ${{ secrets.GITHUB_TOKEN }}
       - name: Get result
         run: echo ${{ toJSON(steps.enum.outputs.data) }} | jq '.'
