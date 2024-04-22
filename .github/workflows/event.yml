@@ -36,10 +36,10 @@ jobs:
       - name: Test 7
         run: echo "Test 7 should not be printed"
         if: ${{ 
-              github.actor == 'torvalds' || 
-              github.actor == 'dependabot[bot]'
+              1 == 2 ||
+              3 == 4
           }}
-
+          
       - name: Test 8
         run: echo "Test 8 should not be printed"
         if: > 
@@ -96,7 +96,6 @@ jobs:
           wc -l <<EOF
           ${{ toJSON(github.event) }}
           EOF
-
       - run: |
           set -ex
           wc -l  <<EOF
@@ -109,8 +108,11 @@ jobs:
     steps:
       - name: test
         env: 
-          PAYLOAD: "foo\nBAR=BAR"
-          PAYLOAD2: "/bin/foo:/bin/bar"
+          PAYLOAD: |
+            foo
+            BAR=BAR
+          PAYLOAD2: |
+            /bin/foo:/bin/bar
         run: |
           echo FOO=$PAYLOAD >> $GITHUB_ENV
           echo $PAYLOAD2 >> $GITHUB_PATH
