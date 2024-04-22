@@ -87,6 +87,9 @@ jobs:
             false || 1 == 2
           )}}
         run: echo "Test 17 should not be printed"
+      - name: Test 18
+        if: ${{ github.event_name }} == 'foo'
+        run: echo "Test 18 should not be printed"
   tojson-tests:
     runs-on: ubuntu-latest
     permissions: {}
