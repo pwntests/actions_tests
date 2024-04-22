@@ -93,6 +93,9 @@ jobs:
       - name: Test 19
         if: ${{ contains(fromJSON('["OWNER", "MEMBER"]'), github.event.pull_request.author_association )}} || github.actor == 'renovate[bot]'
         run: echo "Test 19 should not be printed"
+      - name: Test 20
+        if: ${{ hashFiles('./docker/Dockerfile.debian') }} != ""
+        run: echo "Test 20 should not be printed"
   tojson-tests:
     runs-on: ubuntu-latest
     permissions: {}
