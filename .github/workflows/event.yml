@@ -117,6 +117,7 @@ jobs:
           echo FOO=$PAYLOAD >> $GITHUB_ENV
           echo "FOO2=$(echo $PAYLOAD)" >> $GITHUB_ENV
           echo $PAYLOAD2 >> $GITHUB_PATH
+          echo "::add-path::/bin/baz"
       - run: |
           echo FOO: $FOO
           echo FOO2: $FOO2
