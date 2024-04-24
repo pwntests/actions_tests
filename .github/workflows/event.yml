@@ -101,6 +101,14 @@ jobs:
           ${{ github.event.workflow_run.event == 'pull_request' &&
           github.event.workflow_run.conclusion == 'success' }}
         run: echo "Test 21 should not be printed"
+      - name: Test 22
+        if: |
+          runner.os == 'Windows' && (
+            startsWith(inputs.node, 'v10.') ||
+            startsWith(inputs.node, 'v12.') ||
+            startsWith(inputs.node, 'v14.')
+          )
+        run: echo "Test 22 should not be printed"
   tojson-tests:
     runs-on: ubuntu-latest
     permissions: {}
