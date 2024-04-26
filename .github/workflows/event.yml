@@ -143,34 +143,29 @@ jobs:
           echo "FOO3=${PAYLOAD}" >> $GITHUB_ENV
       - env:
           PAYLOAD: "GOO\nINJ4=PWNED"
+        name: NOT-EXPLOITABLE
         run: |
           echo FOO4=$(echo $PAYLOAD) >> $GITHUB_ENV
       - env:
           PAYLOAD: "GOO\nINJ5=PWNED"
         run: |
           echo "FOO5<<EOF" >> $GITHUB_ENV
-          echo "$PAYLOAD" >> $GITHUB_ENV
+          echo "$PAYLOAD"
           echo "EOF" >> $GITHUB_ENV
       - env:
           PAYLOAD: "GOO\nINJ6=PWNED"
         run: |
           echo "FOO6<<EOF" >> "${GITHUB_ENV}"
-          echo "$PAYLOAD" >> "${GITHUB_ENV}"
+          echo "${PAYLOAD}"
           echo "EOF" >> "${GITHUB_ENV}"
       - env:
           PAYLOAD: "GOO\nINJ7=PWNED"
         run: |
           {
             echo 'FOO7<<EOF'
-            echo "$PAYLOAD" >> "$GITHUB_ENV"
+            echo "$PAYLOAD"
             echo EOF
           } >> "$GITHUB_ENV"
-      - env:
-          PAYLOAD: "GOO\nINJ8=PWNED"
-        run: |
-          cat <<-"EOF" >> "$GITHUB_ENV"
-            echo "FOO8=$PAYLOAD"
-          EOF
       - run: |
           set
   injection-tests2:
