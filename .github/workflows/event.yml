@@ -144,7 +144,7 @@ jobs:
       - env:
           PAYLOAD: "GOO\nINJ4=PWNED"
         run: |
-          echo FOO4=$(echo $INJ4) >> $GITHUB_ENV
+          echo FOO4=$(echo $PAYLOAD) >> $GITHUB_ENV
       - env:
           PAYLOAD: "GOO\nINJ5=PWNED"
         run: |
