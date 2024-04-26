@@ -130,9 +130,47 @@ jobs:
     steps:
       - name: test
         env: 
-          PAYLOAD: "GOO\nINJ=PWNED"
+          PAYLOAD: "GOO\nINJ1=PWNED"
         run: |
-          echo "FOO=$PAYLOAD" >> $GITHUB_ENV
+          echo "FOO1=$PAYLOAD" >> $GITHUB_ENV
+      - env:
+          PAYLOAD: "GOO\nINJ2=PWNED"
+        run: |
+          echo "FOO2=$PAYLOAD" >> $GITHUB_ENV
+      - env:
+          PAYLOAD: "GOO\nINJ3=PWNED"
+        run: |
+          echo "FOO3=${PAYLOAD}" >> $GITHUB_ENV
+      - env:
+          PAYLOAD: "GOO\nINJ4=PWNED"
+        run: |
+          echo FOO4=$(echo $INJ4) >> $GITHUB_ENV
+      - env:
+          PAYLOAD: "GOO\nINJ5=PWNED"
+        run: |
+          echo "FOO5<<EOF" >> $GITHUB_ENV
+          echo "$PAYLOAD" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+      - env:
+          PAYLOAD: "GOO\nINJ6=PWNED"
+        run: |
+          echo "FOO6<<EOF" >> "${GITHUB_ENV}"
+          echo "$PAYLOAD" >> "${GITHUB_ENV}"
+          echo "EOF" >> "${GITHUB_ENV}"
+      - env:
+          PAYLOAD: "GOO\nINJ7=PWNED"
+        run: |
+          {
+            echo 'FOO7<<EOF'
+            echo "$PAYLOAD" >> "$GITHUB_ENV"
+            echo EOF
+          } >> "$GITHUB_ENV"
+      - env:
+          PAYLOAD: "GOO\nINJ8=PWNED"
+        run: |
+          cat <<-"EOF" >> "$GITHUB_ENV"
+            echo "FOO8=$PAYLOAD"
+          EOF
       - run: |
           set
   injection-tests2:
