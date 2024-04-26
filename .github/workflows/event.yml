@@ -147,16 +147,21 @@ jobs:
         run: |
           echo FOO4=$(echo $PAYLOAD) >> $GITHUB_ENV
       - env:
+          PAYLOAD: "GOO\nINJ41=PWNED"
+        name: NOT-EXPLOITABLE
+        run: |
+          echo FOO41="$(echo $PAYLOAD)" >> $GITHUB_ENV
+      - env:
           PAYLOAD: "GOO\nINJ5=PWNED"
         run: |
           echo "FOO5<<EOF" >> $GITHUB_ENV
-          echo "$PAYLOAD"
+          echo "$PAYLOAD" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
       - env:
           PAYLOAD: "GOO\nINJ6=PWNED"
         run: |
           echo "FOO6<<EOF" >> "${GITHUB_ENV}"
-          echo "${PAYLOAD}"
+          echo "${PAYLOAD}" >> $GITHUB_ENV
           echo "EOF" >> "${GITHUB_ENV}"
       - env:
           PAYLOAD: "GOO\nINJ7=PWNED"
