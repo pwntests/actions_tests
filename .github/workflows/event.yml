@@ -133,22 +133,23 @@ jobs:
           ACTIONS_ALLOW_UNSECURE_COMMANDS: true
           PAYLOAD: |
             GOO
-            PATH=PWNED:/bin:/usr/local/bin
+            INJ=PWNED
           PAYLOAD2: |
             /bin/foo:/bin/bar
           PAYLOAD3: |
             /bin/baz
         run: |
-          echo FOO=$PAYLOAD >> $GITHUB_ENV
-          echo "FOO2=$(echo $PAYLOAD)" >> $GITHUB_ENV
-          echo "FOO3=${{ env.PAYLOAD }}" > $GITHUB_ENV
+          echo "FOO=${PAYLOAD}" >> $GITHUB_ENV
+          #echo "FOO2=$(echo $PAYLOAD)" >> $GITHUB_ENV
+          #echo "FOO3=${{ env.PAYLOAD }}" > $GITHUB_ENV
       - run: |
-          echo FOO: $FOO
-          echo FOO2: $FOO2
-          echo FOO3: $FOO3
-          echo PATH: $PATH
-          echo $GITHUB_ENV
-          cat $GITHUB_ENV
+          echo "FOO: $FOO"
+          echo "INJ: $INJ"
+          #echo FOO2: $FOO2
+          #echo FOO3: $FOO3
+          #echo PATH: $PATH
+          #echo $GITHUB_ENV
+          #cat $GITHUB_ENV
   injection-tests2:
     runs-on: ubuntu-latest
     permissions:
