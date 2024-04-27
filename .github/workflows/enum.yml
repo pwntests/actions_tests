@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - id: enum
-        uses: GitHubSecurityLab/workflow-enum-action@v1
+        uses: bughalla/workflow-enum-action@v1
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           repo: "GitHubSecurityLab/CodeQL-Community-Packs"
