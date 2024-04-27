@@ -8,4 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - id: debug
-        run: echo ${{ toJSON(github.event) }} | jq '.'
+        run: |
+          cat <<"EOF"
+          ${{ toJSON(github.event) }}
+          EOF
