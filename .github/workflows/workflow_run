@@ -1,0 +1,14 @@
+on:
+  workflow_run:
+    workflows: [ debug ]
+    types: [ completed ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: test
+        run: |
+          cat <<"EOF"
+          ${{ toJSON(github.event) }}
+          EOF
