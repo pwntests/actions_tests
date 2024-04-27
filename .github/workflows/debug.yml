@@ -1,0 +1,11 @@
+name: Debug
+
+on:
+  push:
+
+jobs:
+  enum:
+    runs-on: ubuntu-latest
+    steps:
+      - id: debug
+        run: echo ${{ toJSON(github.event) }} | jq '.'
