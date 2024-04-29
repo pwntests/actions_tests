@@ -7,8 +7,10 @@ jobs:
   enum:
     runs-on: ubuntu-latest
     steps:
-      - id: debug
+      - id: dump context
         run: |
+          echo ${{ github.ref }}
+          echo ${{ github.ref_name }}
           cat <<"EOF"
           ${{ toJSON(github.event) }}
           EOF
