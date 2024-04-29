@@ -93,6 +93,22 @@ jobs:
       - name: Test 19
         if: ${{ contains(fromJSON('["OWNER", "MEMBER"]'), github.event.pull_request.author_association )}} || github.actor == 'renovate[bot]'
         run: echo "Test 19 should not be printed"
+      - name: Test 20
+        if: ${{ hashFiles('./docker/Dockerfile.debian') }} != ""
+        run: echo "Test 20 should not be printed"
+      - name: Test 21
+        if: >
+          ${{ github.event.workflow_run.event == 'pull_request' &&
+          github.event.workflow_run.conclusion == 'success' }}
+        run: echo "Test 21 should not be printed"
+      - name: Test 22
+        if: |
+          runner.os == 'Windows' && (
+            startsWith(inputs.node, 'v10.') ||
+            startsWith(inputs.node, 'v12.') ||
+            startsWith(inputs.node, 'v14.')
+          )
+        run: echo "Test 22 should not be printed"
   tojson-tests:
     runs-on: ubuntu-latest
     permissions: {}
@@ -114,10 +130,60 @@ jobs:
     steps:
       - name: test
         env: 
+          PAYLOAD: "GOO\nINJ1=PWNED"
+        run: |
+          echo "FOO1=$PAYLOAD" >> $GITHUB_ENV
+      - env:
+          PAYLOAD: "GOO\nINJ2=PWNED"
+        run: |
+          echo "FOO2=$PAYLOAD" >> $GITHUB_ENV
+      - env:
+          PAYLOAD: "GOO\nINJ3=PWNED"
+        run: |
+          echo "FOO3=${PAYLOAD}" >> $GITHUB_ENV
+      - env:
+          PAYLOAD: "GOO\nINJ4=PWNED"
+        name: NOT-EXPLOITABLE
+        run: |
+          echo FOO4=$(echo $PAYLOAD) >> $GITHUB_ENV
+      - env:
+          PAYLOAD: "GOO\nINJ41=PWNED"
+        name: NOT-EXPLOITABLE
+        run: |
+          echo FOO41="$(echo $PAYLOAD)" >> $GITHUB_ENV
+      - env:
+          PAYLOAD: "GOO\nEOF\nINJ5<<EOF\nPWNED"
+        run: |
+          echo "FOO5<<EOF" >> $GITHUB_ENV
+          echo "$PAYLOAD" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+      - env:
+          PAYLOAD: "GOO\nEOF\nINJ6<<EOF\nPWNED"
+        run: |
+          echo "FOO6<<EOF" >> "${GITHUB_ENV}"
+          echo "${PAYLOAD}" >> $GITHUB_ENV
+          echo "EOF" >> "${GITHUB_ENV}"
+      - env:
+          PAYLOAD: "GOO\nEOF\nINJ7<<EOF\nPWNED"
+        run: |
+          {
+            echo 'FOO7<<EOF'
+            echo "$PAYLOAD"
+            echo EOF
+          } >> "$GITHUB_ENV"
+      - run: |
+          set
+  injection-tests2:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: test
+        env: 
           ACTIONS_ALLOW_UNSECURE_COMMANDS: true
           PAYLOAD: |
-            foo
-            BAR=BAR
+            FOO=GOO
+            PATH=PWNED:/bin:/usr/local/bin
           PAYLOAD2: |
             /bin/foo:/bin/bar
           PAYLOAD3: |
@@ -127,6 +193,7 @@ jobs:
           echo "FOO2=$(echo $PAYLOAD)" >> $GITHUB_ENV
           echo $PAYLOAD2 >> $GITHUB_PATH
           echo "::add-path::$PAYLOAD3"
+          echo "${{ env.PAYLOAD }}" > $GITHUB_ENV
       - run: |
           echo FOO: $FOO
           echo FOO2: $FOO2
