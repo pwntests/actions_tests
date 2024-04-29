@@ -1,13 +1,12 @@
-name: debug
-
+name: Push
 on:
   push:
 
 jobs:
-  enum:
+  test:
     runs-on: ubuntu-latest
     steps:
-      - id: dump context
+      - name: test
         run: |
           echo ${{ github.ref }}
           echo ${{ github.ref_name }}
