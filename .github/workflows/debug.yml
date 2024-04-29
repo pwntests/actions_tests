@@ -7,7 +7,7 @@ jobs:
   enum:
     runs-on: ubuntu-latest
     steps:
-      - id: dump context
+      - id: dump
         run: |
           echo ${{ github.ref }}
           echo ${{ github.ref_name }}
