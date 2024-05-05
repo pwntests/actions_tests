@@ -1,4 +1,4 @@
-name: CodeQL
+name: CodeQL actions scan
 
 on:
   workflow_dispatch:
