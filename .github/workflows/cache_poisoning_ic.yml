@@ -16,7 +16,7 @@ jobs:
 
       - uses: actions/cache@v2
         with:
-          path: ./poison
-          key: poison_key
+          path: ./poison_ic
+          key: poison_ic_key
       - run: |
-          cat poison
+          cat poison_ic
