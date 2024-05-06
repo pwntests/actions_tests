@@ -18,14 +18,23 @@ jobs:
         uses: dorny/paths-filter@v3
         id: changed
         with:
-          list-files: shell
+          list-files: json
           filters: |
-            style:
-              - '*.csl'
-              - 'dependent/*.csl'
             locale:
               - '*.xml'
       - name: Changed files
         run: |
-          echo changed: ${{ steps.changed.outputs.style_files }} ${{ steps.changed.outputs.locale_files }}
+          echo changed: ${{ steps.changed.outputs.locale_files }}
           echo changed: ${{ steps.changed.outputs.changed }}
+      - name: Check for relevant changes
+        uses: dorny/paths-filter@v3
+        id: changed2
+        with:
+          list-files: csv
+          filters: |
+            locale:
+              - '*.xml'
+      - name: Changed files
+        run: |
+          echo changed:${{ steps.changed2.outputs.locale_files }}
+          echo changed: ${{ steps.changed2.outputs.changed }}
