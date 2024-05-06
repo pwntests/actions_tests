@@ -28,3 +28,4 @@ jobs:
       - name: Changed files
         run: |
           echo changed: ${{ steps.changed.outputs.style_files }} ${{ steps.changed.outputs.locale_files }}
+          echo changed: ${{ steps.changed.outputs.changed }}
