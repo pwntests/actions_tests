@@ -22,7 +22,7 @@ jobs:
           filters: |
             locale:
               - '*.xml'
-      - name: Changed files
+      - name: Changed files 1
         run: |
           echo changed: ${{ steps.changed.outputs.locale_files }}
           echo changed: ${{ steps.changed.outputs.changes }}
@@ -34,7 +34,31 @@ jobs:
           filters: |
             locale:
               - '*.xml'
-      - name: Changed files
+      - name: Changed files 2
         run: |
           echo changed:${{ steps.changed2.outputs.locale_files }}
           echo changed: ${{ steps.changed2.outputs.changes }}
+      - name: Check for relevant changes
+        uses: dorny/paths-filter@v3
+        id: changed3
+        with:
+          list-files: shell
+          filters: |
+            locale:
+              - '*.xml'
+      - name: Changed files 3
+        run: |
+          echo changed:${{ steps.changed3.outputs.locale_files }}
+          echo changed: ${{ steps.changed3.outputs.changes }}
+      - name: Check for relevant changes
+        uses: dorny/paths-filter@v3
+        id: changed4
+        with:
+          list-files: escape
+          filters: |
+            locale:
+              - '*.xml'
+      - name: Changed files 4
+        run: |
+          echo changed:${{ steps.changed4.outputs.locale_files }}
+          echo changed: ${{ steps.changed4.outputs.changes }}
