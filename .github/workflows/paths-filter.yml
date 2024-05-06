@@ -25,7 +25,7 @@ jobs:
       - name: Changed files
         run: |
           echo changed: ${{ steps.changed.outputs.locale_files }}
-          echo changed: ${{ steps.changed.outputs.changed }}
+          echo changed: ${{ steps.changed.outputs.changes }}
       - name: Check for relevant changes
         uses: dorny/paths-filter@v3
         id: changed2
@@ -37,4 +37,4 @@ jobs:
       - name: Changed files
         run: |
           echo changed:${{ steps.changed2.outputs.locale_files }}
-          echo changed: ${{ steps.changed2.outputs.changed }}
+          echo changed: ${{ steps.changed2.outputs.changes }}
