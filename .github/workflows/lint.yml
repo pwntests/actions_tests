@@ -13,10 +13,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: echo "foo"
-      - run: ls
+      - run: echo $(ls)
       - name: Persist data
         uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3  # v4.3.1
         if: ${{ !cancelled() }}
         with:
           name: data
-          path: packages.json
+          path: ./packages.json
