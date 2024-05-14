@@ -15,7 +15,7 @@ jobs:
         with:
           name: data
           if_no_artifact_found: ignore
-          workflow_conclusion: 'sucess'
+          workflow_conclusion: 'success'
           search_artifacts: true
       - run: cat packages.json
       - name: Persist data
