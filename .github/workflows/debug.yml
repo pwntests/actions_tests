@@ -1,7 +1,7 @@
 name: debug
 
 on:
-  push:
+  pull_request:
 
 jobs:
   enum:
@@ -9,8 +9,9 @@ jobs:
     steps:
       - id: dump
         run: |
-          echo ${{ github.ref }}
-          echo ${{ github.ref_name }}
+          echo "${{ github.ref }}"
+          echo "${{ github.ref_name }}"
           cat <<"EOF"
           ${{ toJSON(github.event) }}
           EOF
+          echo "${{github.event.pull_request}}"
