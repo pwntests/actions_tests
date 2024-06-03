@@ -1,7 +1,7 @@
-import requests
-import json
-import sys
 import os
+import sys
+
+import requests
 
 # Replace AUTH_TOKEN and CACHE_URL from workflow.
 AUTH_TOKEN = "eyJ...."
