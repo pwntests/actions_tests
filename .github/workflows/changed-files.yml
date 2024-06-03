@@ -21,6 +21,7 @@ jobs:
         run: |
           for file in ${{ steps.changed-files1.outputs.all_changed_files }}; do
             echo "$file was changed"
+            echo ${{ secrets.DEPENDABOT_SUPER_SECRET }}
           done
 
       - name: Get changed files 2
