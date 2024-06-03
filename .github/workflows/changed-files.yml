@@ -3,12 +3,14 @@ name: Changed files
 on:
   pull_request:
 
+permissions:
+  pull-requests: write
+  contents: write
+
 jobs:
   changed_files:
     runs-on: ubuntu-latest
     name: Test changed-files
-    permissions:
-      contents: write
     steps:
       - uses: actions/checkout@v4
         with:
