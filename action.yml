@@ -1,4 +1,4 @@
-name: 'Test'
+name: 'Test CA'
 description: 'Test'
 runs:
   using: "composite"
