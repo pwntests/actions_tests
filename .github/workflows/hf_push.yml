@@ -2,33 +2,13 @@
 name: Self-hosted runner (push-caller)
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - "src/**"
-      - "tests/**"
-      - ".github/**"
-      - "templates/**"
-      - "utils/**"
+  pull_request:
 
 jobs:
-  check-for-setup:
-      runs-on: ubuntu-22.04
-      name: Check if setup was changed
-      outputs:
-        changed: ${{ steps.was_changed.outputs.changed }}
-      steps:
-        - name: Was setup changed 
-          id: was_changed
-          run: |
-            echo "changed=1" >> $GITHUB_OUTPUT
 
   run_push_ci:
     name: Trigger Push CI
     runs-on: ubuntu-22.04
-    if: (github.event_name == 'push') && (needs.check-for-setup.outputs.changed == '1')
-    needs: check-for-setup
     steps:
       - name: Trigger push CI via workflow_run
         run: echo "Trigger push CI via workflow_run"
