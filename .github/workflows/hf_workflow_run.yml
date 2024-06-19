@@ -1,0 +1,28 @@
+name: Self-hosted runner (push)
+
+on:
+  workflow_run:
+    workflows: ["Self-hosted runner (push-caller)"]
+    branches: ["main"]
+    types: [completed]
+  push:
+    branches:
+      - ci_*
+      - ci-*
+    paths:
+      - "src/**"
+      - "tests/**"
+      - ".github/**"
+      - "templates/**"
+      - "utils/**"
+  repository_dispatch:
+
+jobs:
+  setup:
+    name: Setup
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Prepare custom environment variables
+        shell: bash
+        run: |
+          CI_BRANCH_WORKFLOW_RUN=${{ github.event.workflow_run.head_branch }}
