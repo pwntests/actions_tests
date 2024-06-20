@@ -1,0 +1,37 @@
+name: Quarkus Documentation CI
+
+on:
+  push:
+    branches-ignore:
+      - 'dependabot/**'
+      - 'jakarta-rewrite'
+      - '3.0'
+    paths:
+      - 'docs/src/main/asciidoc/**'
+      - '.github/workflows/doc-build.yml'
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'docs/src/main/asciidoc/**'
+      - '.github/workflows/doc-build.yml'
+
+jobs:
+  build-doc:
+    name: "Documentation Build"
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    # Skip main in forks
+    if: "github.repository == 'quarkusio/quarkus' || !endsWith(github.ref, '/main')"
+    steps:
+      - name: Store PR id
+        run: echo ${{ github.event.number }} > pr-id.txt
+
+      - name: Persist documentation
+        uses: actions/upload-artifact@v4
+        with:
+          name: documentation
+          path: |
+            pr-id.txt
+            docs/
+            target/asciidoc/generated/config/
+          retention-days: 1

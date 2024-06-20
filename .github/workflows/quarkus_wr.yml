@@ -1,0 +1,33 @@
+name: Surge.sh Preview
+
+on:
+  workflow_run:
+    workflows: ["Quarkus Documentation CI"]
+    types:
+      - completed
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    if: github.event.workflow_run.event == 'pull_request' && github.event.workflow_run.conclusion == 'success'
+    steps:
+      - name: Download PR Artifact
+        uses: dawidd6/action-download-artifact@v3
+        with:
+          workflow: ${{ github.event.workflow_run.workflow_id }}
+          workflow_conclusion: success
+          name: documentation
+          path: documentation-temp
+      - name: Store PR id as variable
+        id: pr
+        run: |
+          echo "id=$(<documentation-temp/pr-id.txt)" >> $GITHUB_OUTPUT
+      - name: Sync documentation
+        shell: bash
+        run: |
+          chmod 755 ./documentation-temp/docs/sync-web-site.sh
+          ./documentation-temp/docs/sync-web-site.sh main ../../
+          rm -rf documentation-temp
+      - name: Publishing to surge for preview
+        id: deploy
+        run: echo ${{ steps.pr.outputs.id }}
