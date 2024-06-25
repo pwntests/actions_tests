@@ -19,6 +19,11 @@ jobs:
         id: comment-branch
         with:
           repo_token: ${{ github.token }}
+      - name: resolve pr refs
+        id: refs
+        uses: eficode/resolve-pr-refs@main
+        with:
+          token: ${{ github.token }}
       - uses: actions/checkout@v3
         if: success()
         with:
@@ -27,8 +32,8 @@ jobs:
       - name: HEAD_REF current branch name
         shell: bash
         run: |
-          echo "HEAD_REF from PR: ${{ steps.comment-branch.outputs.head_ref }}"
-          echo "BASE_REF from PR: ${{ steps.comment-branch.outputs.base_ref }}"
+          echo "HEAD_REF1 from PR: ${{ steps.comment-branch.outputs.head_ref }}"
+          echo "HEAD_REF2 from PR: ${{ steps.refs.outputs.head_ref }}"
       - name: Set current branch name
         shell: bash
         run: echo "name=$(git rev-parse --abbrev-ref HEAD)" >> $GITHUB_OUTPUT
