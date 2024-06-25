@@ -3,7 +3,7 @@ import json
 import sys
 import os
 
-# Replace AUTH_TOKEN and CACHE_URL from workflow.
+# Replace AUTH_TOKEN and CACHE_URL from workflow
 AUTH_TOKEN = "eyJ...."
 CACHE_URL = 'https://acghubeus2.actions.githubusercontent.com/..../_apis/artifactcache/caches'
 
