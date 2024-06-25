@@ -9,8 +9,9 @@ jobs:
     steps:
       - id: dump
         run: |
-          echo "${{ github.ref }}"
-          echo "${{ github.ref_name }}"
+          echo "REF ${{ github.ref }}"
+          echo "REF_NAME ${{ github.ref_name }}"
+          echo "HEAD_REF ${{github.head_ref}}"
           cat <<"EOF"
           ${{ toJSON(github.event) }}
           EOF
