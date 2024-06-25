@@ -23,6 +23,7 @@ jobs:
         shell: bash
         run: |
           echo "HEAD_REF from PR: ${{ steps.comment-branch.outputs.head_ref }}"
+          echo "BASE_REF from PR: ${{ steps.comment-branch.outputs.base_ref }}"
       - name: Set current branch name
         shell: bash
         run: echo "name=$(git rev-parse --abbrev-ref HEAD)" >> $GITHUB_OUTPUT
