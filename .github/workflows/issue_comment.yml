@@ -1,6 +1,6 @@
 name: Benchmarks (PR)
 on: issue_comment
-
+permissions: write-all
 jobs:
   run-benchmarks-on-comment:
     if: startsWith(github.event.comment.body, '/benchmark')
