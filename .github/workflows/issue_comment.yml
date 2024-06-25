@@ -19,6 +19,11 @@ jobs:
         id: comment-branch
         with:
           repo_token: ${{ github.token }}
+      - uses: actions/checkout@v3
+        if: success()
+        with:
+          fetch-depth: 0 # fetch full history to be able to get main commit sha
+          ref: ${{ steps.comment-branch.outputs.head_ref }}
       - name: HEAD_REF current branch name
         shell: bash
         run: |
