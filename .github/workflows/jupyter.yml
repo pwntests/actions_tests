@@ -1,0 +1,40 @@
+name: Update Playwright Snapshots
+
+on:
+  issue_comment:
+    types: [created, edited]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update-galata-snapshots:
+    name: Update Galata References
+    if: ${{ github.event.issue.pull_request && (contains(github.event.comment.body, 'please update galata snapshots') || contains(github.event.comment.body, 'please update snapshots')) }}
+    timeout-minutes: 80
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: React to the triggering comment
+        run: |
+          gh api repos/${{ github.repository }}/issues/comments/${{ github.event.comment.id }}/reactions --raw-field 'content=+1'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Configure git to use https
+        run: git config --global hub.protocol https
+
+      - name: Checkout the branch from the PR that triggered the job
+        run: gh pr checkout ${{ github.event.issue.number }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install dependencies
+        run: |
+          bash ./scripts/ci_install.sh
