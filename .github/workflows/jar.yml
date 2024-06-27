@@ -41,12 +41,6 @@ jobs:
           exit 0;
         fi
 
-        if [[ $BASE != $GITHUB_REPOSITORY ]]
-        then
-          echo "It's only possible to update local branches"
-          exit 0;
-        fi
-
         echo "branch=$REF" >> $GITHUB_OUTPUT
       if: github.event.comment.body == 'build js'
     - uses: actions/setup-java@v3
