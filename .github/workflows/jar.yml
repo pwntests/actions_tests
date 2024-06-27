@@ -51,8 +51,7 @@ jobs:
     - uses: actions/checkout@v4
       with:
         ref: ${{ steps.vars.outputs.branch }}
-        lfs: false
-        persist-credentials: false
+        token: ${{ GITHUB_TOKEN }}
       if: steps.vars.outputs.branch != ''
     - name: Fetch YUICompressor
       run: |
