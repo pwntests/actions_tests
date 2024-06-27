@@ -1,0 +1,50 @@
+name: Benchmarks (PR)
+on: issue_comment
+permissions: write-all
+jobs:
+  run-benchmarks-on-comment:
+    if: startsWith(github.event.comment.body, '/benchmark')
+    name: Run and upload benchmarks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check for Command
+        id: command
+        uses: xt0rted/slash-command-action@v2
+        with:
+          command: benchmark
+          reaction-type: "eyes"
+          repo-token: ${{ github.token }}
+
+      - uses: xt0rted/pull-request-comment-branch@v2
+        id: comment-branch
+        with:
+          repo_token: ${{ github.token }}
+      - name: resolve pr refs
+        id: refs
+        uses: eficode/resolve-pr-refs@main
+        with:
+          token: ${{ github.token }}
+      - uses: actions/checkout@v3
+        if: success()
+        with:
+          fetch-depth: 0 # fetch full history to be able to get main commit sha
+          ref: main
+      - name: HEAD_REF current branch name
+        shell: bash
+        run: |
+          echo "HEAD_REF1 from PR: ${{ steps.comment-branch.outputs.head_ref }}"
+          echo "HEAD_REF2 from PR: ${{ steps.refs.outputs.head_ref }}"
+      - name: Set current branch name
+        shell: bash
+        run: echo "name=$(git rev-parse --abbrev-ref HEAD)" >> $GITHUB_OUTPUT
+        id: current_branch
+      - name: Set normalized current branch name
+        shell: bash
+        run: echo "name=$(git rev-parse --abbrev-ref HEAD | tr '/' '_')" >> $GITHUB_OUTPUT
+        id: normalized_current_branch
+      - name: Set file basename with format "dataset_branch_commitSHA"
+        shell: bash
+        run: |
+          echo "COMMAND ${{ steps.command.outputs.command-arguments }}"
+          echo "BRANCH NAME ${{ steps.current_branch.outputs.name }}"
+          echo "NORM BRANCH NAME ${{ steps.normalized_current_branch.outputs.name }}"
