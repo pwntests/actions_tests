@@ -49,10 +49,9 @@ jobs:
         java-version: '9'
       if: steps.vars.outputs.branch != ''
     - uses: actions/checkout@v4
+      if: steps.vars.outputs.branch != ''
       with:
         ref: ${{ steps.vars.outputs.branch }}
-        token: ${{ GITHUB_TOKEN }}
-      if: steps.vars.outputs.branch != ''
     - name: Fetch YUICompressor
       run: |
         cd $GITHUB_WORKSPACE/js
